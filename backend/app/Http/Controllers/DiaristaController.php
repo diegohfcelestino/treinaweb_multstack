@@ -15,4 +15,19 @@ class DiaristaController extends Controller
             'diaristas' => $diaristas
         ]);
     }
+
+    public function create()
+    {
+        return view('create');    
+    }
+
+    public function store(request $request)
+    {
+       $dados = $request->except(('_token'));
+       $dados['foto_usuario'] = $request->foto_usuario->store('public');
+
+       Diarista::create($dados);
+
+       return redirect()->route('diaristas.index');
+    }
 }
